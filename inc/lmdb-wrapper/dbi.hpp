@@ -119,6 +119,8 @@ public:
                 throw std::runtime_error("db is full");
             case MDB_TXN_FULL: 
                 throw std::runtime_error("txn has too many dirty pages");
+            case MDB_KEYEXIST:
+                throw std::runtime_error("key exists");
             default: 
                 throw std::runtime_error("failed to put value");
         }
@@ -152,7 +154,7 @@ inline T dbi::get(MDB_txn* txn, size_t key, const T& def_val) const {
 
 template <class T>
 inline void dbi::put(MDB_txn* txn, const size_t& key, const T& val, unsigned int flags) const {
-    dbi::store<std::string>::template put<T>(txn, dbi_, key, val, flags);
+    dbi::store<size_t>::template put<T>(txn, dbi_, key, val, flags);
 }
 
 template <class K, class T>

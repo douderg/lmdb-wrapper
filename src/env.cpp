@@ -77,6 +77,13 @@ env env::factory::open(const std::string& path, mdb_mode_t mode) {
         }
     }
 
+    if (map_size_) {
+        int err = mdb_env_set_mapsize(result.get(), *map_size_);
+        if (err) {
+            throw std::runtime_error("failed to set map size");
+        }
+    }
+
     int err = mdb_env_open(result.get(), path.c_str(), flags_, mode);
     switch (err) {
         case 0:
