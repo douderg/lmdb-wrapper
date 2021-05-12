@@ -82,9 +82,10 @@ public:
         MDB_val k = value::pack(key);
         MDB_val result;
         auto err = mdb_get(txn, dbi, &k, &result);
+        object<T> obj(result);
         switch (err) {
             case 0:
-                return value::unpack<T>(result);
+                return obj.value();
             case MDB_NOTFOUND: 
                 throw std::runtime_error("key does not exist");
             default: 
@@ -97,9 +98,10 @@ public:
         MDB_val k = value::pack(key);
         MDB_val result;
         auto err = mdb_get(txn, dbi, &k, &result);
+        object<T> obj(result);
         switch (err) {
             case 0:
-                return value::unpack<T>(result);
+                return obj.value(); 
             case MDB_NOTFOUND: 
                 return default_value;
             default: 
@@ -110,8 +112,8 @@ public:
     template <class T>
     static void put(MDB_txn *txn, MDB_dbi dbi, const key_t& key, const T& value, unsigned int flags) {
         MDB_val k = value::pack(key);
-        MDB_val v = value::pack(value);
-        auto err = mdb_put(txn, dbi, &k, &v, flags);
+        object<T> obj(value);
+        auto err = mdb_put(txn, dbi, &k, obj.data(), flags);
         switch (err) {
             case 0:
                 break;

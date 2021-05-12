@@ -3,6 +3,7 @@
 
 #include "lmdb-wrapper/value.hpp"
 #include <optional>
+#include <iostream>
 
 namespace lmdb {
 
@@ -47,8 +48,20 @@ public:
     std::optional<std::pair<K, T>> get(MDB_cursor_op op) const {
         std::optional<std::pair<K, T>> result;
         MDB_val key, data;
-        if (!mdb_cursor_get(cursor_, &key, &data, op)) {
-            result = std::make_pair(value::unpack<K>(key), value::unpack<T>(data));
+        int err = mdb_cursor_get(cursor_, &key, &data, op);
+        if (!err) {
+            object<T> obj(data);
+            result = std::make_pair(value::unpack<K>(key), obj.value());
+        }
+        return result;
+    }
+
+    std::optional<std::pair<K, T>> get(const K& key, const T& value, MDB_cursor_op op) const {
+        std::optional<std::pair<K, T>> result;
+        MDB_val mdb_key = value::pack<K>(key);
+        object<T> obj(value);
+        if (!mdb_cursor_get(cursor_, &mdb_key, obj.data(), op)) {
+            result = std::make_pair(value::unpack<K>(mdb_key), obj.value());
         }
         return result;
     }

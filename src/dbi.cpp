@@ -51,12 +51,10 @@ dbi::factory& dbi::factory::unset_flags() {
 
 dbi dbi::factory::open(const std::string& path) {
     return dbi(txn_, path, flags_);
-    //return flags_ & MDB_INTEGERKEY ? dbi(txn_, path, flags_, dbi::store<size_t>{}) : dbi(txn_, path, flags_, dbi::store<std::string>{});
 }
 
 dbi dbi::factory::open() {
     return dbi(txn_, flags_);
-    //return flags_ & MDB_INTEGERKEY ? dbi(txn_, path, flags_, dbi::store<size_t>{}) : dbi(txn_, path, flags_, dbi::store<std::string>{});
 }
 
 }
