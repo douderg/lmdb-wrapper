@@ -8,8 +8,26 @@ namespace lmdb {
 
 class read_txn;
 
+class txn_base {
+public:
+
+    virtual ~txn_base() = default;
+
+    template <class T, class K>
+    T get(const dbi& db, const K& key) {
+        return db.template get<T>(handle(), key);
+    }
+
+    template <class T, class K>
+    T get(const dbi& db, const K& key, const T& default_value) {
+        return db.template get<T>(handle(), key, default_value);
+    }
+
+    virtual MDB_txn* handle() const = 0;
+};
+
 template <class Impl>
-class txn {
+class txn : public txn_base {
 public:
     txn(MDB_env*, unsigned int flags);
     txn(MDB_env*, MDB_txn*, unsigned int flags);
@@ -30,18 +48,8 @@ public:
 
     dbi::factory db();
 
-    template <class T, class K>
-    T get(const dbi& db, const K& key) {
-        return db.template get<T>(txn_, key);
-    }
-
-    template <class T, class K>
-    T get(const dbi& db, const K& key, const T& default_value) {
-        return db.template get<T>(txn_, key, default_value);
-    }
-
     MDB_env* env() const;
-    MDB_txn* handle() const;
+    MDB_txn* handle() const override;
 
 protected:
     MDB_txn *txn_;
@@ -52,6 +60,13 @@ public:
     static constexpr unsigned int flags = MDB_RDONLY;
     read_txn(MDB_env*);
     read_txn(MDB_env*, MDB_txn*);
+
+    read_txn(const read_txn&) = delete;
+    read_txn& operator=(const read_txn&) = delete;
+
+    read_txn(read_txn&&) = default;
+    read_txn& operator=(read_txn&&) = default;
+
     ~read_txn() = default;
 };
 
@@ -60,6 +75,13 @@ public:
     static constexpr unsigned int flags = 0;
     write_txn(MDB_env*);
     write_txn(MDB_env*, MDB_txn*);
+
+    write_txn(const write_txn&) = delete;
+    write_txn& operator=(const write_txn&) = delete;
+
+    write_txn(write_txn&&) = default;
+    write_txn& operator=(write_txn&&) = default;
+
     ~write_txn() = default;
 
     write_txn nested_write();

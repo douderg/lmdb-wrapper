@@ -1,7 +1,7 @@
 #ifndef _DB_HPP_
 #define _DB_HPP_
 
-#include "txn.hpp"
+#include "lmdb-wrapper/txn.hpp"
 
 #include <lmdb.h>
 #include <memory>
