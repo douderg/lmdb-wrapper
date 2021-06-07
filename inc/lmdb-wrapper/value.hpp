@@ -5,6 +5,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace lmdb {
 struct value {
@@ -84,8 +85,8 @@ public:
         std::vector<std::string> result;
         auto ptr = static_cast<const char*>(val_.mv_data);
         for (size_t i = 0; i < val_.mv_size; ++i) {
-            if (ptr[i] == 0) {
-                result.emplace_back(ptr + index, i - index - 1);
+            if (ptr[i] == '\0') {
+                result.emplace_back(ptr + index, i - index);
                 index = i + 1;
             }
         }

@@ -30,6 +30,10 @@ dbi::dbi(MDB_txn* txn, unsigned int flags) {
     }
 }
 
+MDB_dbi dbi::handle() const {
+    return dbi_;
+}
+
 dbi::factory::factory(MDB_txn* txn):txn_{txn}, flags_{0} {
 
 }

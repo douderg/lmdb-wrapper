@@ -25,6 +25,8 @@ public:
         create = MDB_CREATE
     };
 
+    dbi() = default;
+    
     dbi(MDB_txn*, unsigned int);
 
     dbi(MDB_txn*, const std::string&, unsigned int);
@@ -53,6 +55,8 @@ public:
 
     template <class K, class T>
     cursor<K, T> open_cursor(MDB_txn* t);
+
+    MDB_dbi handle() const;
 
 private:
 
