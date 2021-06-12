@@ -1,5 +1,4 @@
-#ifndef _CURSOR_HPP_
-#define _CURSOR_HPP_
+#pragma once
 
 #include "lmdb-wrapper/value.hpp"
 #include <optional>
@@ -147,5 +146,3 @@ private:
 };
 
 }
-
-#endif

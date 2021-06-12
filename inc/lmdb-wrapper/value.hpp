@@ -1,5 +1,4 @@
-#ifndef _VALUE_HPP_
-#define _VALUE_HPP_
+#pragma once
 
 #include <lmdb.h>
 #include <cstring>
@@ -104,4 +103,3 @@ private:
 
 }
 
-#endif

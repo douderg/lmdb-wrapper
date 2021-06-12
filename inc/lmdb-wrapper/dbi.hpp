@@ -1,5 +1,4 @@
-#ifndef _DBI_HPP_
-#define _DBI_HPP_
+#pragma once
 
 #include "lmdb-wrapper/value.hpp"
 #include "lmdb-wrapper/cursor.hpp"
@@ -169,5 +168,3 @@ inline cursor<K, T> dbi::open_cursor(MDB_txn* t) {
 }
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _DB_HPP_
-#define _DB_HPP_
+#pragma once
 
 #include "lmdb-wrapper/txn.hpp"
 
@@ -60,28 +59,4 @@ private:
     unsigned int flags_;
 };
 
-
-
-// class dbi {
-// public:
-//     enum class opt: unsigned int {
-//         reverse_key = MDB_REVERSEKEY,
-//         dup_sort = MDB_DUPSORT,
-//         integer_key = MDB_INTEGERKEY,
-//         dup_fixed = MDB_DUPFIXED,
-//         integer_dup = MDB_INTEGERDUP,
-//         reverse_dup = MDB_REVERSEDUP,
-//         create = MDB_CREATE
-//     };
-
-//     dbi(MDB_txn *txn, const std::string&, unsigned int);
-//     ~dbi();
-// private:
-//     MDB_dbi id_;
-// };
-
-
-
 };
-
-#endif

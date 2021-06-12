@@ -1,5 +1,4 @@
-#ifndef _TXN_HPP_
-#define _TXN_HPP_
+#pragma once
 
 #include "lmdb-wrapper/env.hpp"
 #include "lmdb-wrapper/dbi.hpp"
@@ -200,5 +199,3 @@ dbi::factory txn<Impl>::db() {
 }
 
 }
-
-#endif
